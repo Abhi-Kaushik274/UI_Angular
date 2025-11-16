@@ -1,0 +1,91 @@
+/* --------------------------- Navbar --------------------------- */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 40px;
+  background-color: rgba(0, 0, 0, 0.264);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+}
+
+.logo span {
+  color: #0071e3;
+}
+
+.logo img {
+  height: 50px;
+  width: auto;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+nav ul li a:hover {
+  color: #0071e3;
+}
+
+button,
+.create-btn,
+.explore-btn {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.create-btn,
+.explore-btn {
+  border-radius: 25px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #0071e3;
+}
+
+.create-btn:hover,
+.explore-btn:hover{
+  background-color: #005bb5;
+  transform: scale(1.05);
+}
+
+/* Circular create button */
+.create-btn {
+  // background: linear-gradient(135deg, #2563eb, #3b82f6);
+  // background-color: #0071e3;
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 768px) {
+      .fullscreen-overlay {
+    top: auto;
+    left: auto;
+    background: transparent;
+  }
+}

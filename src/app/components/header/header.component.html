@@ -1,0 +1,27 @@
+<nav>
+  <div class="logo">
+    <img src="https://abhi-kaushik274.github.io/ComponentCraftUI/Untitled%20design.png" alt="Universe Logo" />
+  </div>
+
+  <ul class="menu">
+    <li>
+      <button class="create-btn" (click)="toggleAboutCard()">
+        <i class="fa-solid fa-address-card"></i> <span>About</span>
+      </button>
+      <app-about-card *ngIf="showAboutCard" (close)="closeAboutCard()"></app-about-card>
+    </li>
+
+    <li>
+      <button class="create-btn" (click)="toggleUploadCard()">
+        <i class="fa-solid fa-plus-circle"></i> <span>Create</span>
+      </button>
+      <app-upload-card *ngIf="showUploadCard" (close)="closeUploadCard()"></app-upload-card>
+    </li>
+
+    <li>
+      <button class="create-btn">
+        <i class="fa-solid fa-paper-plane"></i> <span>Connect</span>
+      </button>
+    </li>
+  </ul>
+</nav>

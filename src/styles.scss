@@ -1,1 +1,377 @@
-/* You can add global styles to this file, and also import other style files */
+/* --------------------------- Base --------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background-color: #000;
+  color: #fff;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Base circle style */
+.circle {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* Gradient circles */
+.circle.blue {
+  top: 20px;
+  left: 10px;
+  width: 18rem;
+  height: 18rem;
+  background-color: rgba(59, 130, 246, 0.2);
+}
+
+.circle.cyan {
+  bottom: 20px;
+  right: 10px;
+  width: 24rem;
+  height: 24rem;
+  background-color: rgba(6, 182, 212, 0.2);
+}
+
+.circle.purple {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 24rem;
+  height: 24rem;
+  background-color: rgba(168, 85, 247, 0.1);
+}
+
+/* --------------------------- Buttons --------------------------- */
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.3s ease;
+  background-color: transparent;
+  color: white;
+}
+
+.explore-btn {
+  border-radius: 25px;
+  padding: 8px 15px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  background-color: #0071e3;
+}
+
+.explore-btn:hover {
+  background-color: #005bb5;
+  transform: scale(1.05);
+}
+
+/* --------------------------- Sections --------------------------- */
+.elements,
+.community,
+.blog {
+  padding: 80px 20px;
+  text-align: center;
+  background-color: #000;
+}
+
+.elements h2,
+.community h2,
+.blog h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.elements-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.element {
+  height: 200px;
+  background: #1a1a1a;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  color: #ccc;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.element:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
+}
+
+.community p {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  font-size: 1.1rem;
+  color: #ccc;
+}
+
+.blog-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.blog-item {
+  width: 300px;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  color: #ccc;
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.blog-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.card-image {
+  position: relative;
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 22px 22px 0 0;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  transition: transform 0.4s ease;
+}
+
+.image-blur {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 26, 26, 0) 0%,
+    rgba(26, 26, 26, 0.8) 100%
+  );
+  backdrop-filter: blur(6px);
+  border-radius: 0 0 22px 22px;
+}
+
+.card-content {
+  padding: 18px;
+  position: relative;
+  z-index: 2;
+}
+
+.card-content h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-content p {
+  font-size: 0.9rem;
+  color: #aaa;
+  margin: 8px 0 16px;
+}
+
+.card-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.card-stats span {
+  color: #ccc;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.follow-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.follow-btn:hover {
+  background: #0dcaf0;
+  color: #fff;
+}
+
+/* --------------------------- Responsive --------------------------- */
+@media (max-width: 1024px) {
+  .elements-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .blog-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .upload-card {
+    left: 50%;
+    width: 90vw !important;
+  }
+
+  nav ul li button span {
+    display: none;
+  }
+
+  .elements-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .search-bar input {
+    width: 100%;
+  }
+}
+
+// /* Upload Card Styles */
+// .upload-card {
+//   position: fixed;
+//   top: 295px;
+//   right: -180px;
+//   transform: translate(-50%, -50%);
+//   background: rgba(20, 20, 30, 0.95);
+//   color: #fff;
+//   padding: 30px;
+//   border-radius: 20px;
+//   width: 400px;
+//   text-align: center;
+//   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+//   z-index: 2000;
+//   display: none;
+//   backdrop-filter: blur(10px);
+//   animation: fadeIn 0.3s ease-in-out;
+// }
+
+// .upload-card h3 {
+//   margin-top: 0;
+// }
+
+// .upload-box {
+//   border: 2px dashed rgba(255, 255, 255, 0.2);
+//   border-radius: 15px;
+//   padding: 40px 20px;
+//   margin: 20px 0;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+// }
+
+// .upload-box:hover {
+//   background: rgba(255, 255, 255, 0.05);
+// }
+
+// .upload-box i {
+//   font-size: 2rem;
+//   margin-bottom: 10px;
+//   display: block;
+// }
+
+// .file-info {
+//   font-size: 0.9rem;
+//   color: #ccc;
+//   margin-bottom: 15px;
+// }
+
+// #chooseFileBtn {
+//   padding: 10px;
+//   background-color: transparent;
+//   color: white;
+// }
+
+// .save-btn {
+//   background: #0078ff;
+//   color: white;
+//   border: none;
+//   border-radius: 8px;
+//   padding: 10px 20px;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+// }
+
+// .save-btn:disabled {
+//   background: #444;
+//   cursor: not-allowed;
+// }
+
+// .save-btn:hover:not(:disabled) {
+//   background: #005bd1;
+// }
+
+// .close-upload-btn {
+//   position: absolute;
+//   top: 14px;
+//   right: 14px;
+//   background: rgba(255, 255, 255, 0.05);
+//   border: none;
+//   color: #fff;
+//   border-radius: 50%;
+//   width: 32px;
+//   height: 32px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   transition: all 0.3s ease;
+// }
+
+// .close-upload-btn:hover {
+//   background: rgba(255, 255, 255, 0.2);
+//   transform: rotate(90deg);
+// }
+
+// @keyframes fadeIn {
+//   from {
+//     opacity: 0;
+//     transform: translate(-50%, -45%);
+//   }
+//   to {
+//     opacity: 1;
+//     transform: translate(-50%, -50%);
+//   }
+// }

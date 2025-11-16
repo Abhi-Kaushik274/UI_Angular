@@ -1,0 +1,105 @@
+/* Upload Card Styles */
+.upload-card {
+  position: absolute;
+  top: 295px;
+  right: -180px;
+  transform: translate(-50%, -50%);
+  background: rgba(20, 20, 30, 0.95);
+  color: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 400px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+//   display: none;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.upload-card h3 {
+  margin-top: 0;
+}
+
+.upload-box {
+  border: 2px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 40px 20px;
+  margin: 20px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.upload-box:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.upload-box i {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.file-info {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+#chooseFileBtn {
+  padding: 10px;
+  background-color: transparent;
+  color: white;
+}
+
+.save-btn {
+  background: #0078ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.save-btn:disabled {
+  background: #444;
+  cursor: not-allowed;
+}
+
+.save-btn:hover:not(:disabled) {
+  background: #005bd1;
+}
+
+.close-upload-btn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  color: #fff;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-upload-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
