@@ -1,0 +1,12 @@
+<div class="cards-container">
+  <div class="card" *ngFor="let card of cards">
+    <div class="preview-area">
+      <iframe class="preview-frame" [srcdoc]="getPreviewContent(card)">
+      </iframe>
+    </div>
+    <div class="card-text">
+      <h3>{{ card.title }}</h3>
+      <p>Click to Expand</p>
+    </div>
+  </div>
+</div>

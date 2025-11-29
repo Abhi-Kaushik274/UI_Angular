@@ -1,12 +1,20 @@
 <div class="hero">
+    <!-- <div class="banner">
+      <img src="https://img.icons8.com/?size=100&id=CzeyF7MGqYga&format=png&color=000000">
+      First Release! Check it out and let me know any issues.
+    </div> -->
+
   <h1>ComponentCraft UI</h1>
   <h3>The Ultimate Open-Source UI Library</h3>
   <p>Elegant, minimalist designs crafted for developers and designers.</p>
 
-  <div class="search-bar">
-    <input type="text" placeholder="Explore components..." />
+
+  <!-- <div class="search-bar">
+    <input type="text" placeholder="Explore components..." /> 
     <button><span>Search</span></button>
-  </div>
+  </div> -->
+<!--[(ngModel)]="searchText" (ngModelChange)="onSearchChange()"-->
+
 
   <!-- <div class="hero-showcase">
     <div class="element-preview" *ngFor="let card of cards" (click)="openCard(card)">
@@ -35,18 +43,119 @@
   </div> -->
 
   <div class="hero-showcase-wrapper">
-    <!-- <button class="scroll-btn left" (click)="scrollLeft()">&#10094;</button> -->
-  
+    <!-- Scroll Container -->
     <div class="hero-showcase" #scrollContainer (scroll)="onScroll()">
-      <div class="element-preview" *ngFor="let card of cards" (click)="openCard(card)">
-        <span>{{ card.title }}</span>
-        <div class="card-footer">Click to Expand</div>
+  
+      <div class="cards-container" [ngClass]="isGridLayout ? 'cards-container-grid' : 'cards-container-flex'">
+        <div class="card" style="height: 300px;" *ngFor="let card of filteredCards" (click)="openCard(card)">
+          <!-- Preview iframe -->
+          <div class="preview-area">
+            <iframe class="preview-frame" [srcdoc]="getPreviewContent(card)" frameborder="0"></iframe>
+          </div>
+  
+          <!-- Card text -->
+          <div class="card-text">
+            <h3>{{ card.title }}</h3>
+            <p>Click to Expand</p>
+          </div>
+        </div>
       </div>
+  
     </div>
   
-    <!-- <button class="scroll-btn right" (click)="scrollRight()">&#10095;</button> -->
+    <!-- Scroll Dots -->
+    <div class="scroll-dots">
+      <span
+        *ngFor="let dot of dots; let i = index"
+        [class.active]="i === activeDot"
+        (click)="scrollToDot(i)">
+      </span>
+    </div>
+  </div>
   
-    <!-- Dots Section -->
+  <!-- Fullscreen Overlay -->
+  <div class="fullscreen-overlay" *ngIf="fullscreenCard">
+    <div class="fullscreen-card">
+      <button class="close-btn" (click)="closeCard()">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+  
+      <!-- Fullscreen preview iframe -->
+      <div class="iframe-container">
+        <iframe 
+          class="preview-frame" 
+          [srcdoc]="getPreviewContent(fullscreenCard)" 
+          frameborder="0"
+          width="100%" 
+          height="100%">
+        </iframe>
+      </div>
+      
+      <!-- Download Buttons -->
+      <!-- <div class="fullscreen-footer">
+        <a id="downloadBtn1" [href]="fullscreenCard.download1" download class="download-btn">
+          <i class="fa-brands fa-html5"></i>
+        </a>
+        <a id="downloadBtn2" [href]="fullscreenCard.download2" download class="download-btn">
+          <i class="fa-brands fa-angular"></i>
+        </a>
+        <a id="downloadBtn3" [href]="fullscreenCard.download3" download class="download-btn">
+          <i class="fa-brands fa-react"></i>
+        </a>
+      </div> -->
+      <div style="display: flex; align-items: center; gap: 20px;">
+
+        <!-- HTML Download (active) -->
+        <div class="fullscreen-footer" style="right: 180px; background-color: transparent; border: none;">
+          <a 
+            id="downloadBtn1"
+            (click)="downloadCombinedCode(fullscreenCard)"
+            class="download-btn-1"
+            title="Download HTML Code">
+            <i class="fa-brands fa-html5"></i>
+          </a>
+        </div>
+      
+        <!-- Coming Soon Wrapper for Angular & React -->
+        <div class="fullscreen-footer coming-soon-wrapper">
+          <div class="download-buttons-1">
+            <!-- Angular Download (disabled) -->
+            <a id="downloadBtn2" class="download-btn-1" title="Coming Soon">
+              <i class="fa-brands fa-angular"></i>
+            </a>
+      
+            <!-- React Download (disabled) -->
+            <a id="downloadBtn3" class="download-btn-1" title="Coming Soon">
+              <i class="fa-brands fa-react"></i>
+            </a>
+          </div>
+      
+          <!-- Watermark Overlay -->
+          <div class="watermark">Coming Soon</div>
+        </div>
+      
+      </div>
+    </div>      
+</div>
+  
+  <!-- <div class="hero-showcase-wrapper">
+    
+    <div class="hero-showcase" #scrollContainer (scroll)="onScroll()">
+      
+      <div class="cards-container">
+        <div class="card" *ngFor="let card of cards" (click)="openCard(card)">
+          <div class="preview-area">
+            <iframe class="preview-frame" [srcdoc]="getPreviewContent(card)">
+            </iframe>
+          </div>
+          <div class="card-text">
+            <h3>{{ card.title }}</h3>
+            <p>Click to Expand</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
     <div class="scroll-dots">
       <span
         *ngFor="let dot of dots; let i = index"
@@ -61,13 +170,7 @@
       <button class="close-btn" (click)="closeCard()">
         <i class="fa-solid fa-xmark"></i>
       </button>
-      <!-- <h2>{{ fullscreenCard!.title }}</h2>
-      <p>{{ fullscreenCard!.content }}</p>
-
-      <h3>Preview Code</h3> -->
-      <!-- <div>
-        <iframe [src]="this.codeContent"></iframe>
-      </div> -->
+      
       <div class="iframe-container" *ngIf="fullscreenCard">
         <iframe
           *ngIf="safeUrl"
@@ -90,9 +193,14 @@
         </a>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <div style="margin-top: 25px;">
-    <a class="explore-btn">Explore Now</a>
+    <a class="explore-btn" (click)="toggleLayout()">Explore Now</a>
   </div>
+  <!-- <div class="layout-toggle">
+    <button (click)="toggleLayout()">
+      {{ isGridLayout ? 'Switch to Flex Layout' : 'Switch to Grid Layout' }}
+    </button>
+  </div> -->
 </div>

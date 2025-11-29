@@ -1,9 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild, OnInit } from '@angular/core';
+import { DomSanitizer, SafeHtml, SafeResourceUrl } from '@angular/platform-browser';
+import cardsData from '../../../assets/code-previewer-json/cards.json';
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 
-
-interface Card {
+export interface Card {
   title: string;
   content: string;
   codeHtml: string;
@@ -14,51 +16,73 @@ interface Card {
   download3: string;
 }
 
+export interface PreviewCard {
+  title: string;
+  htmlCode: string;
+  cssCode: string;
+  jsCode?: string;
+  download1: any;
+  download2: any;
+  download3: any;
+}
+
 @Component({
   selector: 'app-hero',
   standalone: false,
   templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.scss']  // **note styleUrls (plural)**
+  styleUrls: ['./hero.component.scss']
 })
-export class HeroComponent {
+export class HeroComponent implements OnInit {
   @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
+
+  fullscreenCard: PreviewCard | null = null;
   safeUrl!: SafeResourceUrl;
-  
-  fullscreenCard: Card | null = null;
-  codeContent: string = ''; // stores previewed code
+  codeContent: string = '';
 
-  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private sanitizer: DomSanitizer) {}
-
-  // scrollLeft() {
-  //   this.scrollContainer.nativeElement.scrollBy({
-  //     left: -300,
-  //     behavior: 'smooth'
-  //   });
-  // }
-
-  // scrollRight() {
-  //   this.scrollContainer.nativeElement.scrollBy({
-  //     left: 300,
-  //     behavior: 'smooth'
-  //   });
-  // }
-
-
+  cards: PreviewCard[] = cardsData;
+  filteredCards: PreviewCard[] = [];
 
   dots: number[] = [];
   activeDot = 0;
-  cardWidth = 270; // card width + gap
+  cardWidth = 270;
+  isGridLayout = false;
 
+  private readonly bodyStyles = `
+    body {
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      text-align: center;
+    }
+  `;
+
+  constructor(private cdr: ChangeDetectorRef, private http: HttpClient, private sanitizer: DomSanitizer) {}
+
+  ngOnInit() {
+    this.filteredCards = [...this.cards];
+  }
+
+  toggleLayout() {
+    this.isGridLayout = !this.isGridLayout;
+  }
+  
+  // ---------------------------
+  // SCROLL NAVIGATION
+  // ---------------------------
   ngAfterViewInit() {
     this.calculateDots();
   }
 
-  calculateDots() {
-    const container = this.scrollContainer.nativeElement;
-    const visibleWidth = container.offsetWidth;
-    const totalWidth = container.scrollWidth;
+  private calculateDots() {
+    if (!this.scrollContainer) return;
 
-    const totalDots = Math.ceil(totalWidth / visibleWidth);
+    const container = this.scrollContainer.nativeElement;
+    const totalDots = Math.ceil(container.scrollWidth / container.offsetWidth);
     this.dots = Array(totalDots).fill(0);
   }
 
@@ -72,78 +96,24 @@ export class HeroComponent {
 
   scrollToDot(index: number) {
     const container = this.scrollContainer.nativeElement;
-    const scrollPosition = index * container.offsetWidth;
-    container.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+    container.scrollTo({ left: index * container.offsetWidth, behavior: 'smooth' });
     this.activeDot = index;
   }
 
   onScroll() {
     const container = this.scrollContainer.nativeElement;
-    const scrollLeft = container.scrollLeft;
-    const visibleWidth = container.offsetWidth;
-
-    this.activeDot = Math.round(scrollLeft / visibleWidth);
+    this.activeDot = Math.round(container.scrollLeft / container.offsetWidth);
   }
 
-  cards: Card[] = [
-    {
-      title: 'Toggle Button 1',
-      content: 'Preview ToggleButton component code',
-      codeHtml: 'previewcode/ToggleButtonCode/HTML/html-code.html',
-      codeAngular: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      codeReact: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-      download1: 'app/previewcode/ToggleButtonCode/html-code.html',
-      download2: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      download3: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-    },
-    {
-      title: 'Toggle Button 2',
-      content: 'Preview ToggleButton component code',
-      codeHtml: 'previewcode/ToggleButtonCode/HTML/html-code.html',
-      codeAngular: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      codeReact: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-      download1: 'app/previewcode/ToggleButtonCode/html-code.html',
-      download2: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      download3: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-    },
-    {
-      title: 'Toggle Button 3',
-      content: 'Preview ToggleButton component code',
-      codeHtml: 'previewcode/ToggleButtonCode/HTML/html-code.html',
-      codeAngular: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      codeReact: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-      download1: 'app/previewcode/ToggleButtonCode/html-code.html',
-      download2: 'assets/preview-code/ToggleButtonCode/angular-code.ts',
-      download3: 'assets/preview-code/ToggleButtonCode/angular-code.html',
-    }
-  ];
-  
-  // openCard(card: Card) {
-  //   this.fullscreenCard = card;
-  
-  //   // ✅ Securely load iframe preview (for actual visual preview)
-  //   this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(card.codeHtml);
-  
-  //   console.log('📄 Preview file path:', card.codeHtml);
-  
-  //   // ✅ Load raw HTML code text (for code view)
-  //   this.http.get(card.codeHtml, { responseType: 'text' }).subscribe({
-  //     next: (data) => {
-  //       this.codeContent = data;
-  //       this.cdr.detectChanges(); // refresh the template binding
-  //     },
-  //     error: (err) => {
-  //       console.error('❌ Error loading HTML code:', err);
-  //       this.codeContent = 'Error: Unable to load preview file.';
-  //     }
-  //   });
-  // }
-
-  openCard(card: Card) {
+  // ---------------------------
+  // FULLSCREEN PREVIEW
+  // ---------------------------
+  openCard(card: PreviewCard) {
     this.fullscreenCard = card;
-    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(card.codeHtml);
-  
-    this.http.get(card.codeHtml, { responseType: 'text' }).subscribe({
+    this.generateDownloads(card);
+    this.safeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(card.htmlCode);
+
+    this.http.get(card.htmlCode, { responseType: 'text' }).subscribe({
       next: (data) => {
         this.codeContent = data;
         this.cdr.detectChanges();
@@ -154,11 +124,71 @@ export class HeroComponent {
       }
     });
   }
-  
-  
 
   closeCard() {
     this.fullscreenCard = null;
     this.codeContent = '';
+  }
+
+  // ---------------------------
+  // SAFE HTML PREVIEW FOR IFRAME
+  // ---------------------------
+  getPreviewContent(card: PreviewCard): SafeHtml {
+    const html = `
+      <html>
+        <head><style>${this.bodyStyles}${card.cssCode}</style></head>
+        <body>${card.htmlCode}<script>${card.jsCode || ''}<\/script></body>
+      </html>
+    `;
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
+  htmlUrl: string | null = null;
+  cssUrl: string | null = null;
+  jsUrl: string | null = null;
+
+  generateDownloads(card: any) {
+    if (!card) return;
+  
+    // HTML file
+    if (card.htmlCode) {
+      const htmlBlob = new Blob([card.htmlCode], { type: 'text/html' });
+      this.htmlUrl = URL.createObjectURL(htmlBlob);
+    }
+  
+    // CSS file
+    if (card.cssCode) {
+      const cssBlob = new Blob([card.cssCode], { type: 'text/css' });
+      this.cssUrl = URL.createObjectURL(cssBlob);
+    }
+  
+    // JS file (optional)
+    if (card.jsCode) {
+      const jsBlob = new Blob([card.jsCode], { type: 'text/javascript' });
+      this.jsUrl = URL.createObjectURL(jsBlob);
+    }
+  }
+  
+  downloadCombinedCode(card: any) {
+    if (!card) return;
+  
+    // convert title → lowercase + hyphens
+    const titleFormatted = card.title
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, '-');
+  
+    const zipName = `${titleFormatted}-html-code`; // without .zip here
+  
+    const zip = new JSZip();
+    const folder = zip.folder(zipName);
+  
+    folder!.file("index.html", card.htmlCode || "<!-- No HTML Code Provided -->");
+    folder!.file("style.css", card.cssCode || "/* No CSS Code Provided */");
+    folder!.file("script.js", card.jsCode || "// No JS Code Provided */");
+  
+    zip.generateAsync({ type: 'blob' }).then((content: Blob) => {
+      saveAs(content, `${zipName}.zip`);
+    });
   }
 }

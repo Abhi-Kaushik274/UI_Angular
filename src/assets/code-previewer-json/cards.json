@@ -1,0 +1,61 @@
+[
+  {
+    "title": "Neon Glass Card",
+    "htmlCode": "<div class='glass-card'><h2>Neon Glass</h2><p>Modern frosted glass effect with neon glow.</p></div>",
+    "cssCode": ".glass-card { padding: 30px; border-radius: 20px; background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); box-shadow: 0 0 20px rgba(0,255,255,0.5); color:#fff; text-align:center; font-family:sans-serif; transition:0.3s; } .glass-card:hover { box-shadow: 0 0 40px rgba(0,255,255,0.9); transform: translateY(-5px); }",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Gradient Button",
+    "htmlCode": "<button class='gradient-btn'>Click Me</button>",
+    "cssCode": ".gradient-btn { padding:12px 28px; border-radius:50px; background:linear-gradient(45deg,#ff6ec4,#7873f5); color:white; font-size:16px; border:none; cursor:pointer; transition:0.4s; } .gradient-btn:hover { background:linear-gradient(45deg,#7873f5,#ff6ec4); transform:scale(1.1); }",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Animated Loader",
+    "htmlCode": "<div class='gradient-loader'></div>",
+    "cssCode": ".gradient-loader { width:50px; height:50px; border-radius:50%; background:conic-gradient(#ff6ec4,#7873f5,#4ade80,#ff6ec4); animation: spin 1s linear infinite; margin:auto; } @keyframes spin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Spinner",
+    "htmlCode": "<div class=\"spinner\"></div>",
+    "cssCode": "/* Optimized slow spinner without center dot */\n.spinner {\n  position: absolute;\n  inset: 0;\n  margin: auto;\n  width: 1em;\n  height: 1em;\n  font-size: 28px;\n  border-radius: 50%;\n  box-shadow:\n    0 -1.4em 0 0 #69717d,\n    1em -1em 0 0 #69717d,\n    1.4em 0 0 0 #69717d,\n    1em 1em 0 0 #69717d,\n    0 1.4em 0 0 #69717d,\n   -1em 1em 0 0 #69717d,\n   -1.4em 0 0 0 #69717d,\n   -1em -1em 0 0 #69717d;\n  background: transparent; /* remove center dot */\n  animation: spinner-rotate 3s linear infinite;\n}\n\n@keyframes spinner-rotate {\n  0%   { transform: rotate(0deg); }\n  100% { transform: rotate(360deg); }\n}",
+    "jsCode": "",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Toggle Dark Mode",
+    "htmlCode": "<label class='dark-switch'><input type='checkbox' id='darkModeToggle'><span class='slider'></span></label>",
+    "cssCode": ".dark-switch { position: relative; width:60px; height:34px; display:inline-block; } .dark-switch input{display:none;} .slider{position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background:#333; border-radius:34px; transition:.4s;} .slider:before{position:absolute; content:''; height:26px; width:26px; background:white; border-radius:50%; left:4px; bottom:4px; transition:.4s;} input:checked + .slider{background:#4ade80;} input:checked + .slider:before{transform:translateX(26px);}",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Typing Text Effect",
+    "htmlCode": "<h2 class='typing-text' id='typing'></h2>",
+    "cssCode": ".typing-text { font-size:24px; color:#ff6ec4; text-align:center; font-family:monospace; }",
+    "jsCode": "const txt='Hello, Welcome to Universe UI!'; let i=0; const typingEl=document.getElementById('typing'); function typeWriter(){ if(i<txt.length){ typingEl.innerText+=txt.charAt(i); i++; setTimeout(typeWriter,100);} } typeWriter();",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  },
+  {
+    "title": "Checkbox",
+    "htmlCode": "<form class=\"my-form\">\n  <div>\n    <input id=\"check-1\" type=\"checkbox\" />\n    <label for=\"check-1\">Checkbox 1</label>\n  </div>\n  <div>\n    <input id=\"check-2\" type=\"checkbox\" />\n    <label for=\"check-2\">Checkbox 2</label>\n  </div>\n  <div>\n    <input id=\"check-3\" type=\"checkbox\" />\n    <label for=\"check-3\">Checkbox 3</label>\n  </div>\n  <div>\n    <input id=\"check-4\" type=\"checkbox\" />\n    <label for=\"check-4\">Checkbox 4</label>\n  </div>\n</form>",
+    "cssCode": "/* checkbox.cc */\n/* Minimal, clean version — all text white */\n\n.my-form {\n  --_clr-primary: #ffffff; /* White text */\n  --_clr-hover: #ff7a7a;\n  --_clr-checked: #4fa3ff;\n\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Arial, sans-serif;\n  color: white;\n}\n\n.my-form > div {\n  --_clr-current: var(--_clr-primary);\n\n  display: flex;\n  align-items: center;\n  gap: 0.5rem;\n  color: white;\n}\n\n.my-form label {\n  cursor: pointer;\n  color: white !important; /* Force white text */\n  font-size: 15px;\n  transition: color 150ms ease-in-out;\n}\n\n.my-form input[type=\"checkbox\"] {\n  appearance: none;\n  outline: none;\n  width: 1.4rem;\n  height: 1.4rem;\n\n  padding: 0.25rem;\n  background: transparent;\n\n  border: 2px solid white !important; /* White border */\n  border-radius: 4px;\n\n  display: grid;\n  place-content: center;\n  cursor: pointer;\n\n  transition: border-color 150ms ease-in-out, background-color 150ms ease-in-out;\n}\n\n.my-form input[type=\"checkbox\"]::after {\n  content: \"✔\";\n  opacity: 0;\n  color: var(--_clr-checked);\n  font-size: 1rem;\n  transition: opacity 150ms ease-in-out;\n}\n\n.my-form input[type=\"checkbox\"]:checked::after {\n  opacity: 1;\n}\n",
+    "jsCode": "",
+    "download1": "",
+    "download2": "",
+    "download3": ""
+  }
+]

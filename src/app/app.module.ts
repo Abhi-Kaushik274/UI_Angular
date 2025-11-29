@@ -9,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { UploadCardComponent } from './components/upload-card/upload-card.component';
 import { AboutCardComponent } from './components/about-card/about-card.component';
 import { HttpClientModule } from '@angular/common/http';
+import { CodePreviewerComponent } from './code-previewer/code-previewer.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HttpClientModule } from '@angular/common/http';
     HeroComponent,
     FooterComponent,
     UploadCardComponent,
-    AboutCardComponent
+    AboutCardComponent,
+    CodePreviewerComponent,
   ],
   imports: [
     BrowserModule,
